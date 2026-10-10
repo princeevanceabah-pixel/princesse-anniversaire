@@ -1,0 +1,99 @@
+.letter-scene { max-width: 760px; }
+.letter-paper {
+  position: relative;
+  width: min(100%,680px);
+  margin: 23px auto 0;
+  color: #4f3d4c;
+  background:
+    radial-gradient(ellipse at 4% 5%,rgb(212 154 119 / 13%),transparent 25%),
+    radial-gradient(ellipse at 96% 89%,rgb(199 123 117 / 12%),transparent 24%),
+    repeating-linear-gradient(0deg,transparent 0 37px,rgb(128 95 91 / 4%) 38px 39px),
+    linear-gradient(130deg,#fcf0d9,#fff6e6 46%,#f8e8d1);
+  box-shadow: 0 24px 70px rgb(0 0 0 / 40%),0 0 60px rgb(255 196 225 / 8%);
+  transform: rotate(-.35deg);
+}
+.letter-bouquet { position: absolute; z-index: 0; top: -3px; right: 12px; width: 116px; height: 144px; object-fit: contain; opacity: .72; pointer-events: none; }
+.letter-paper::before { position: absolute; inset: 8px; border: 1px solid rgb(154 107 99 / 22%); content: ""; pointer-events: none; }
+.letter-inner { position: relative; z-index: 1; padding: clamp(23px,5vw,43px) clamp(23px,7vw,68px) 30px; text-align: left; }
+.letter-label, .letter-page { color: #a87c83; font-size: 9px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+.letter-greeting { margin: 24px 0 13px; color: #533a4b; font: 400 clamp(27px,4.8vw,38px) "Segoe Script","Brush Script MT",cursive; }
+.letter-copy { display: grid; gap: 4px; }
+.letter-paragraph { margin: 0; color: #644e5b; font: clamp(14px,2vw,16px)/1.85 Georgia,serif; animation: ink-appear .85s cubic-bezier(.15,.7,.26,1) both; }
+.letter-signature { display: grid; justify-items: end; gap: 3px; margin-top: 20px; color: #8c7180; font: italic 12px Georgia,serif; }
+.letter-signature strong { color: #b4467e; font: 400 clamp(21px,4vw,28px) "Segoe Script","Brush Script MT",cursive; }
+.letter-signature i { font: normal 14px sans-serif; }
+.letter-flower { position: absolute; color: rgb(201 84 127 / 42%); font-size: 25px; }
+.flower-top { top: 9px; right: 21px; }
+.flower-bottom { bottom: 5px; left: 19px; transform: rotate(180deg); }
+.letter-action { display: flex; min-height: 91px; flex-direction: column; align-items: center; justify-content: center; gap: 12px; margin-top: 13px; }
+.letter-action .primary-button { min-width: min(100%,290px); }
+.letter-last-line { margin: 4px 0 0; color: #e8ccdf; font: 15px/1.5 Georgia,serif; text-align: center; }
+.letter-last-line span { color: var(--pink); }
+.letter-section { margin: 22px 0; }
+.letter-section h3 { margin: 0 0 12px; color: #9d526f; font: 400 15px Georgia,serif; }
+.letter-complete-copy, .typewriter-copy { margin: 0; color: #644e5b; font: clamp(14px,2vw,16px)/1.85 Georgia,serif; white-space: pre-wrap; }
+.current-letter-section { padding-top: 5px; }
+.typewriter-copy { min-height: 55px; }
+.typing-cursor { display: inline-block; width: 1px; height: 1em; margin-left: 2px; background: #b4467e; vertical-align: -.12em; animation: cursor-blink 850ms steps(1) infinite; }
+.skip-writing { margin-top: 10px; padding: 6px 0; border: 0; background: transparent; color: #a45e7d; cursor: pointer; font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
+.checkpoint { margin: 22px -16px 0; padding: clamp(16px,3vw,25px); border-radius: 16px; }
+.checkpoint-title { display: flex; align-items: center; justify-content: center; gap: 8px; color: #92647a; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-align: center; }
+.checkpoint-title svg { width: 15px; height: 15px; color: #cb5f93; }
+.checkpoint-progress { display: flex; justify-content: center; gap: 7px; margin: 13px 0; }
+.checkpoint-progress i { width: 24px; height: 3px; border-radius: 9px; background: #d5c6d4; }
+.checkpoint-progress i.active { background: linear-gradient(90deg,#c84f91,#9d72ca); }
+.checkpoint h2 { margin: 10px 0 15px; color: #4f3d4c; font: 400 clamp(17px,3vw,22px) Georgia,serif; text-align: center; }
+.checkpoint .answer-option { border-color: rgb(118 74 111 / 17%); background: rgb(255 255 255 / 40%); color: #594a5b; }
+.checkpoint .answer-option:hover:not(:disabled), .checkpoint .answer-option.selected { border-color: #cf699c; background: rgb(236 187 215 / 24%); color: #503746; }
+.checkpoint .answer-letter { border-color: rgb(137 83 118 / 23%); color: #986b87; }
+.checkpoint .write-answer { color: #8a7082; }
+.checkpoint .write-answer input { border-color: rgb(117 81 107 / 20%); background: rgb(255 255 255 / 52%); color: #4f3d4c; }
+.checkpoint .write-answer input::placeholder { color: #9b8797; }
+.checkpoint .primary-button { width: 100%; }
+.letter-unlocked { display: grid; justify-items: center; gap: 16px; padding: 22px 0 3px; color: #9e5176; font-size: 11px; font-weight: 700; letter-spacing: .1em; }
+.letter-unlocked .primary-button { min-width: min(100%,300px); }
+.final-note-paper .letter-inner { padding-top: clamp(24px,5vw,42px); }
+.final-note-paper .typewriter-copy { color: #624957; }
+.final-note-paper .letter-signature { margin-top: 18px; }
+.floating-emojis { position: fixed; z-index: -1; inset: 0; overflow: hidden; pointer-events: none; }
+.floating-emojis span { position: absolute; color: #ff89c0; font-size: clamp(15px,2vw,22px); opacity: .26; filter: drop-shadow(0 0 8px rgb(255 79 163 / 42%)); animation: emoji-drift 10s ease-in-out infinite; }
+.floating-emojis span:nth-child(1) { top: 23%; left: 8%; }
+.floating-emojis span:nth-child(2) { top: 68%; left: 16%; color: #bda0ff; animation-delay: -3s; }
+.floating-emojis span:nth-child(3) { top: 33%; right: 9%; animation-delay: -5s; }
+.floating-emojis span:nth-child(4) { right: 16%; bottom: 17%; color: #91dff0; animation-delay: -7s; }
+.floating-emojis span:nth-child(5) { top: 12%; left: 52%; font-size: 13px; animation-delay: -2s; }
+
+.birthday-scene { z-index: 2; width: min(100%,820px); padding: 15px 0 20px; }
+.fireworks { position: fixed; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+.fireworks i { position: absolute; width: 125px; aspect-ratio: 1; border-radius: 50%; opacity: 0; background: repeating-conic-gradient(from 0deg,transparent 0deg 9deg,currentColor 10deg 11deg,transparent 12deg 20deg); mask-image: radial-gradient(circle,transparent 0 6%,#000 8% 10%,transparent 12% 18%,#000 20% 22%,transparent 24% 31%,#000 33% 35%,transparent 38% 100%); animation: firework 3.2s ease-out infinite; }
+.fireworks i:nth-child(1) { top: 11%; left: 9%; color: var(--pink); }
+.fireworks i:nth-child(2) { top: 16%; right: 8%; color: var(--cyan); animation-delay: .8s; }
+.fireworks i:nth-child(3) { top: 45%; left: 2%; color: #bd92ff; animation-delay: 1.6s; }
+.fireworks i:nth-child(4) { top: 38%; right: 3%; color: #ffc978; animation-delay: 2.4s; }
+.birthday-eyebrow { color: var(--blush); }
+.birthday-photo { position: relative; width: 122px; height: 122px; margin: 17px auto 10px; padding: 5px; border: 1px solid rgb(255 196 225 / 58%); border-radius: 50%; background: #100d1c; box-shadow: 0 0 0 5px rgb(255 79 163 / 8%),0 0 37px rgb(255 79 163 / 27%); animation: float-soft 5.5s ease-in-out infinite; }
+.birthday-image { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 51% 39%; }
+.photo-tape { position: absolute; top: -7px; left: 29px; width: 39px; height: 15px; background: rgb(255 196 225 / 61%); opacity: .67; transform: rotate(-14deg); }
+.birthday-crown { width: 24px; height: 24px; margin: 0 auto 6px; color: #ffd68a; }
+.birthday-title { display: grid; justify-items: center; margin: 0; color: var(--white); font: 400 clamp(1.8rem,4.3vw,3.1rem)/1.13 Georgia,serif; letter-spacing: -.055em; text-align: center; }
+.birthday-title em { color: var(--blush); font-size: 1.45em; }
+.birthday-age { display: inline-flex; align-items: center; gap: 7px; margin: 11px 0 0; padding: 6px 14px; border: 1px solid rgb(255 196 225 / 24%); border-radius: 999px; background: rgb(255 255 255 / 4%); color: #efd8e7; font: 12px Georgia,serif; letter-spacing: .04em; }
+.birthday-age span { color: #ffd58c; font: 700 15px Georgia,serif; }
+.birthday-age i { color: var(--pink); font-style: normal; }
+.birthday-copy { display: grid; width: min(100%,530px); gap: 4px; margin: 15px auto 0; }
+.birthday-copy p { margin: 0; color: #c9c2d4; font: clamp(12px,1.65vw,14px)/1.7 Georgia,serif; animation: fade-up .8s ease both; }
+.birthday-copy p:first-child { color: #fff4fa; font-size: 15px; }
+.birthday-signature { margin: 16px 0 13px; color: #aaa1b9; font: italic 12px Georgia,serif; }
+.birthday-signature em { color: var(--blush); font: 20px "Segoe Script","Brush Script MT",cursive; }
+.birthday-signature span { color: var(--pink); }
+.replay-button { display: inline-flex; min-height: 42px; align-items: center; gap: 9px; padding: 0 18px; border: 1px solid rgb(255 196 225 / 34%); border-radius: 99px; background: rgb(255 255 255 / 4%); color: #f8deef; cursor: pointer; font-size: 12px; transition: .18s ease; }
+.replay-button:hover { transform: translateY(-2px); border-color: rgb(255 196 225 / 70%); background: rgb(255 79 163 / 11%); }
+.replay-button svg { width: 15px; height: 15px; color: var(--blush); }
+.back-link { position: fixed; z-index: 5; bottom: 58px; left: max(36px,calc((100vw - 1240px)/2)); display: inline-flex; align-items: center; gap: 7px; padding: 8px 4px; border: 0; background: transparent; color: #9690a8; cursor: pointer; font-size: 11px; }
+.back-link:hover { color: var(--blush); }
+.back-link svg { width: 15px; height: 15px; }
+
+@keyframes float-soft { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes firework { 0% { opacity: 0; transform: scale(.12) rotate(0); } 12% { opacity: .65; } 78% { opacity: .26; } 100% { opacity: 0; transform: scale(1.45) rotate(20deg); } }
+@keyframes cursor-blink { 50% { opacity: 0; } }
+@keyframes emoji-drift { 0%,100% { transform: translateY(0) rotate(-9deg); opacity: .18; } 50% { transform: translateY(-17px) rotate(9deg); opacity: .43; } }
