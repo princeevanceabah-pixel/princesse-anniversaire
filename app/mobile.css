@@ -1,0 +1,90 @@
+@media (max-width: 760px) {
+  .topbar { width: calc(100% - 36px); min-height: 65px; }
+  .journey-progress { width: calc(100% - 44px); margin-top: 22px; }
+  .journey-step { min-width: 38px; font-size: 8px; }
+  .screen-transition { padding: 24px 22px 55px; }
+  .intro-scene { width: min(100%,540px); grid-template-columns: 1fr; gap: 29px; text-align: center; }
+  .intro-copy .eyebrow, .quiet-note { justify-content: center; }
+  .intro-body { margin-right: auto; margin-left: auto; }
+  .hero-title { font-size: clamp(3.5rem,15vw,5.5rem); }
+  .intro-copy .primary-button { margin-top: 22px; }
+  .memory-frame { width: min(82vw,360px); }
+  .memory-image-wrap { aspect-ratio: 1.08; }
+  .photo-orbit-art { top: -38px; right: -20px; width: 104px; height: 86px; }
+  .counter-panel { margin-top: 29px; }
+  .back-link { bottom: 47px; left: 18px; }
+}
+
+@media (max-width: 480px) {
+  .topbar { width: calc(100% - 28px); min-height: 60px; }
+  .brand-lockup { gap: 7px; }
+  .brand-mark { width: 29px; height: 29px; border-radius: 9px; }
+  .brand-mark svg { width: 15px; height: 15px; }
+  .brand-name { font-size: 13px; }
+  .step-indicator { gap: 7px; font-size: 9px; }
+  .step-indicator i { width: 16px; }
+  .audio-note, .audio-toggle { min-height: 30px; gap: 6px; padding: 0 8px; font-size: 9px; }
+  .audio-note svg, .audio-toggle svg { width: 13px; height: 13px; }
+  .volume-control input { width: 42px; }
+  .journey-progress { width: calc(100% - 38px); margin-top: 19px; }
+  .journey-step { min-width: 18px; gap: 8px; }
+  .journey-step > span { max-width: 44px; font-size: 7px; line-height: 1.25; }
+  .journey-progress::before { right: 4px; left: 4px; }
+  .screen-transition { padding: 20px 17px 52px; }
+  .eyebrow { font-size: 8px; letter-spacing: .15em; }
+  .display-title { font-size: clamp(2.15rem,11vw,3.1rem); }
+  .scene-lede { font-size: 15px; }
+  .intro-scene { gap: 22px; }
+  .intro-copy .eyebrow { margin-bottom: 17px; }
+  .hero-title { font-size: clamp(3rem,17vw,4.3rem); }
+  .intro-body { font-size: 12px; line-height: 1.72; }
+  .intro-lede { font-size: 16px; }
+  .intro-copy .primary-button { min-height: 48px; margin-top: 17px; }
+  .quiet-note { font-size: 10px; }
+  .memory-frame { width: min(78vw,320px); }
+  .photo-orbit-art { top: -29px; right: -13px; width: 84px; height: 70px; }
+  .counter-panel { min-height: 105px; margin-top: 25px; padding: 13px 5px; border-radius: 15px; }
+  .counter-unit { min-height: 63px; gap: 7px; }
+  .counter-unit strong { font-size: clamp(1.7rem,8vw,2.4rem); }
+  .counter-unit span { font-size: 8px; letter-spacing: .04em; }
+  .counter-copy { margin: 16px auto 18px; font-size: 12px; line-height: 1.7; }
+  .primary-button { min-height: 48px; gap: 9px; padding: 0 18px; font-size: 12px; }
+  .film-lede { font-size: 13px; }
+  .cinema-frame { margin-top: 20px; padding: 6px; border-radius: 14px; }
+  .memory-video { max-height: 35vh; border-radius: 9px; }
+  .film-ending { min-height: 58px; margin-top: 9px; }
+  .film-ending p { font-size: 11px; }
+  .quiz-card { margin-top: 19px; padding: 18px 15px; border-radius: 17px; }
+  .question-text { margin: 18px 0 15px; font-size: 20px; }
+  .answer-option { min-height: 45px; gap: 10px; padding: 6px 9px; font-size: 12px; }
+  .answer-letter { width: 25px; height: 25px; flex-basis: 25px; }
+  .quiz-feedback p { font-size: 11px; }
+  .quiz-complete { padding: 27px 19px; }
+  .letter-paper { margin-top: 17px; }
+  .letter-bouquet { top: 4px; right: 6px; width: 72px; height: 90px; opacity: .55; }
+  .letter-inner { padding: 23px 22px 25px; }
+  .letter-greeting { margin-top: 19px; }
+  .letter-paragraph { font-size: 13px; line-height: 1.72; }
+  .letter-last-line { font-size: 13px; }
+  .birthday-photo { width: 100px; height: 100px; margin-top: 13px; }
+  .birthday-age { margin-top: 8px; padding: 5px 11px; font-size: 10px; }
+  .birthday-title { font-size: clamp(1.45rem,8vw,2.2rem); }
+  .birthday-title em { font-size: 1.38em; }
+  .birthday-copy { gap: 3px; margin-top: 12px; }
+  .birthday-copy p { font-size: 11px; line-height: 1.56; }
+  .birthday-copy p:first-child { font-size: 13px; }
+  .birthday-signature { margin: 12px 0; font-size: 11px; }
+  .birthday-signature em { font-size: 18px; }
+  .replay-button { min-height: 40px; }
+  .back-link { bottom: 42px; left: 13px; font-size: 10px; }
+  .site-footer { min-height: 38px; gap: 5px; padding-bottom: 8px; font-size: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
