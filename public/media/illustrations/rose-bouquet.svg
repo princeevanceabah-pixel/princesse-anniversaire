@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 260" fill="none">
+  <defs>
+    <linearGradient id="petal" x1="52" y1="45" x2="166" y2="159" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe0ed"/><stop offset=".5" stop-color="#ed6fa7"/><stop offset="1" stop-color="#a53573"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="59" y1="130" x2="165" y2="231" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a9c99b"/><stop offset="1" stop-color="#315d64"/>
+    </linearGradient>
+  </defs>
+  <path d="M110 118c1 53-5 82-14 119M111 144c-25 3-44 17-55 39M109 163c24-12 46-12 65 0" stroke="#51766a" stroke-width="4" stroke-linecap="round"/>
+  <path d="M58 183c17-20 38-27 58-20-7 19-25 34-58 20ZM169 155c-17-11-39-12-57-2 12 17 29 24 57 2Z" fill="url(#leaf)" stroke="#bdd6ad" stroke-opacity=".6" stroke-width="2"/>
+  <path d="M109 125c-14-16-44-12-47-34-2-15 13-26 29-23-6-21 16-36 32-24 7-22 37-23 43-1 17-6 34 9 29 26 21 11 18 38-3 45-4 24-30 34-47 19-17 15-37 11-46-8Z" fill="url(#petal)" stroke="#ffd4e6" stroke-opacity=".62" stroke-width="2.5"/>
+  <path d="M92 91c9-10 4-23 17-30 10-6 22-2 24 10 11-8 25-2 24 11 12 1 16 16 7 23-7 7-17 5-23 15-7-9-15-10-23-7-6-9-14-11-25-9-6-3-7-8-1-13Z" fill="#bc427f" fill-opacity=".78"/>
+  <path d="M111 89c8-9 23-9 31-1 7 8 4 18-4 22-5 2-12-1-18 5-7-7-14-4-18-11-4-6 1-11 9-15Z" fill="#f7a3c7"/>
+  <g fill="#fff3fa">
+    <path d="m41 112 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z"/><path d="m181 62 2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5Z"/>
+  </g>
+</svg>
