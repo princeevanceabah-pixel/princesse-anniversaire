@@ -42,7 +42,12 @@ export default function Home() {
     audio.volume = 0.4;
     audio.loop = true;
     audio.muted = false;
-    void audio.play().then(() => setAudioOn(true)).catch(() => setAudioOn(false));
+    void audio.play().then(() => setAudioOn(true)).catch(() => {
+      setAudioOn(false);
+      if (typeof window !== "undefined") {
+        window.addEventListener("pointerdown", playBackgroundAudio, { once: true });
+      }
+    });
   };
 
   useEffect(() => {
