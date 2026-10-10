@@ -4,19 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { BirthdayStage } from "./ending";
 import { FinalNoteStage } from "./letter";
 import { LetterQuizStage } from "./letter-quiz";
-import { AUDIO_SRC, questions, steps, type Screen } from "./story-config";
+import { AUDIO_SRC, AUTO_PLAY_MESSAGE, questions, steps, type Screen } from "./story-config";
 import { CounterStage, Icon, IntroStage, StarField, VideoStage } from "./story";
 
 type SavedProgress = {
   screen: Screen;
   correct: number;
-};
-
-type AmbientAudio = {
-  context: AudioContext;
-  master: GainNode;
-  oscillators: OscillatorNode[];
-  noteTimer: number;
 };
 
 function restoreProgress(): SavedProgress | null {
@@ -40,9 +33,24 @@ export default function Home() {
   const [correct, setCorrect] = useState(0);
   const [ready, setReady] = useState(false);
   const [audioOn, setAudioOn] = useState(false);
-  const [audioVolume, setAudioVolume] = useState(40);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const ambientRef = useRef<AmbientAudio | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const voiceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  const playAutoVoice = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+
+    const synth = window.speechSynthesis;
+    synth.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(AUTO_PLAY_MESSAGE);
+    utterance.lang = "fr-FR";
+    utterance.rate = 0.9;
+    utterance.pitch = 1.15;
+    utterance.volume = 1;
+    voiceRef.current = utterance;
+    synth.speak(utterance);
+    setAudioOn(true);
+  };
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -55,6 +63,24 @@ export default function Home() {
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+
+    if (AUDIO_SRC) {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.volume = 0.4;
+        audio.loop = true;
+        audio.muted = false;
+        void audio.play().catch(() => setAudioOn(false));
+      }
+      setAudioOn(true);
+      return;
+    }
+
+    playAutoVoice();
+  }, [ready]);
 
   useEffect(() => {
     if (!ready) return;
@@ -73,99 +99,20 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const toggleAudio = async () => {
-    if (audioOn) {
-      if (AUDIO_SRC) {
-        audioRef.current?.pause();
-      } else if (ambientRef.current) {
-        await ambientRef.current.context.suspend();
-      }
-      setAudioOn(false);
-      return;
-    }
-
-    try {
-      if (AUDIO_SRC) {
-        if (!audioRef.current) throw new Error("Le fichier audio configuré est absent.");
-        audioRef.current.volume = audioVolume / 100;
-        await audioRef.current.play();
-      } else {
-        let ambient = ambientRef.current;
-        if (!ambient) {
-          const context = new AudioContext();
-          const master = context.createGain();
-          master.gain.value = (audioVolume / 100) * 0.045;
-          master.connect(context.destination);
-          const oscillators: OscillatorNode[] = [];
-          for (const frequency of [130.81, 164.81, 196]) {
-            const oscillator = context.createOscillator();
-            const voice = context.createGain();
-            oscillator.type = "sine";
-            oscillator.frequency.value = frequency;
-            voice.gain.value = 0.2;
-            oscillator.connect(voice);
-            voice.connect(master);
-            oscillator.start();
-            oscillators.push(oscillator);
-          }
-          const notes = [523.25, 587.33, 659.25, 783.99, 659.25, 587.33];
-          let noteIndex = 0;
-          const noteTimer = window.setInterval(() => {
-            const oscillator = context.createOscillator();
-            const voice = context.createGain();
-            const now = context.currentTime;
-            oscillator.type = "sine";
-            oscillator.frequency.value = notes[noteIndex % notes.length];
-            noteIndex += 1;
-            voice.gain.setValueAtTime(0.0001, now);
-            voice.gain.exponentialRampToValueAtTime(0.12, now + 0.18);
-            voice.gain.exponentialRampToValueAtTime(0.0001, now + 2.4);
-            oscillator.connect(voice);
-            voice.connect(master);
-            oscillator.start(now);
-            oscillator.stop(now + 2.5);
-          }, 3_200);
-          ambient = { context, master, oscillators, noteTimer };
-          ambientRef.current = ambient;
-        }
-        await ambient.context.resume();
-      }
-      setAudioOn(true);
-    } catch (error) {
-      console.error("La musique n'a pas pu être démarrée.", error);
-      setAudioOn(false);
-    }
-  };
-
-  const setVolume = (value: number) => {
-    setAudioVolume(value);
-    if (AUDIO_SRC && audioRef.current) {
-      audioRef.current.volume = value / 100;
-    } else if (ambientRef.current) {
-      ambientRef.current.master.gain.setTargetAtTime(
-        (value / 100) * 0.045,
-        ambientRef.current.context.currentTime,
-        0.25,
-      );
-    }
-  };
-
   const pauseBackground = () => {
-    if (!audioOn) return false;
-    if (AUDIO_SRC) audioRef.current?.pause();
-    else if (ambientRef.current) void ambientRef.current.context.suspend();
+    if (typeof window === "undefined") return false;
+    if (window.speechSynthesis) {
+      window.speechSynthesis.pause();
+    }
     setAudioOn(false);
     return true;
   };
 
   const resumeBackground = async () => {
-    try {
-      if (AUDIO_SRC) await audioRef.current?.play();
-      else if (ambientRef.current) await ambientRef.current.context.resume();
+    if (typeof window === "undefined") return;
+    if (window.speechSynthesis && voiceRef.current) {
+      window.speechSynthesis.resume();
       setAudioOn(true);
-    } catch (error) {
-      console.error("La musique n'a pas pu reprendre après la vidéo.", error);
-      setAudioOn(false);
     }
   };
 
@@ -175,6 +122,9 @@ export default function Home() {
     } catch (error) {
       console.error("Impossible d'effacer la progression sauvegardée.", error);
     }
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
     setScreen(0);
     setCorrect(0);
     setAudioOn(false);
@@ -182,18 +132,12 @@ export default function Home() {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
-    if (ambientRef.current) {
-      window.clearInterval(ambientRef.current.noteTimer);
-      ambientRef.current.oscillators.forEach((oscillator) => oscillator.stop());
-      void ambientRef.current.context.close();
-      ambientRef.current = null;
-    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const startStory = () => {
     navigate(1);
-    if (!audioOn) void toggleAudio();
+    if (!audioOn) playAutoVoice();
   };
 
   if (!ready) {
@@ -215,15 +159,6 @@ export default function Home() {
             <span>{String(screen + 1).padStart(2, "0")}</span><i /><span>{String(steps.length).padStart(2, "0")}</span>
           </div>
         )}
-        <div className="audio-area">
-          <button className={`audio-toggle${audioOn ? " active" : ""}`} aria-label={audioOn ? "Couper la musique" : "Activer la musique"} aria-pressed={audioOn} onClick={() => void toggleAudio()} type="button">
-            <Icon name={audioOn ? "volume" : "music"} /><span>{audioOn ? "Ambiance douce" : "Musique"}</span>
-          </button>
-          <label className="volume-control">
-            <span className="sr-only">Volume</span>
-            <input aria-label="Volume de la musique" max="100" min="0" onChange={(event) => setVolume(Number(event.target.value))} type="range" value={audioVolume} />
-          </label>
-        </div>
       </header>
 
       {screen !== 5 && (
