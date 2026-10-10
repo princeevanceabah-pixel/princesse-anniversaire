@@ -1,8 +1,8 @@
 ﻿export const START_DATE = new Date(2026, 6, 18);
 export const PHOTO_SRC = "/media/images/notre-photo.jpg";
 export const VIDEO_SRC = "/media/videos/notre-histoire.mp4";
-export const AUDIO_SRC = "";
-export const AUTO_PLAY_MESSAGE = "meme comme je sais qu'actuellement t'es bien faché suite au retard😅";
+export const AUDIO_SRC = "/media/audio/heat-waves.mp3";
+export const AUTO_PLAY_MESSAGE = "";
 export const BIRTHDAY_AGE = 18;
 
 export const steps = [

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { BirthdayStage } from "./ending";
 import { FinalNoteStage } from "./letter";
 import { LetterQuizStage } from "./letter-quiz";
-import { AUDIO_SRC, AUTO_PLAY_MESSAGE, questions, steps, type Screen } from "./story-config";
+import { AUDIO_SRC, questions, steps, type Screen } from "./story-config";
 import { CounterStage, Icon, IntroStage, StarField, VideoStage } from "./story";
 
 type SavedProgress = {
@@ -34,22 +34,15 @@ export default function Home() {
   const [ready, setReady] = useState(false);
   const [audioOn, setAudioOn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const voiceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  const playAutoVoice = () => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  const playBackgroundAudio = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    const synth = window.speechSynthesis;
-    synth.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(AUTO_PLAY_MESSAGE);
-    utterance.lang = "fr-FR";
-    utterance.rate = 0.9;
-    utterance.pitch = 1.15;
-    utterance.volume = 1;
-    voiceRef.current = utterance;
-    synth.speak(utterance);
-    setAudioOn(true);
+    audio.volume = 0.4;
+    audio.loop = true;
+    audio.muted = false;
+    void audio.play().then(() => setAudioOn(true)).catch(() => setAudioOn(false));
   };
 
   useEffect(() => {
@@ -68,18 +61,11 @@ export default function Home() {
     if (!ready) return;
 
     if (AUDIO_SRC) {
-      const audio = audioRef.current;
-      if (audio) {
-        audio.volume = 0.4;
-        audio.loop = true;
-        audio.muted = false;
-        void audio.play().catch(() => setAudioOn(false));
-      }
-      setAudioOn(true);
+      playBackgroundAudio();
       return;
     }
 
-    playAutoVoice();
+    setAudioOn(false);
   }, [ready]);
 
   useEffect(() => {
@@ -100,19 +86,22 @@ export default function Home() {
   };
 
   const pauseBackground = () => {
-    if (typeof window === "undefined") return false;
-    if (window.speechSynthesis) {
-      window.speechSynthesis.pause();
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setAudioOn(false);
+      return true;
     }
-    setAudioOn(false);
-    return true;
+    return false;
   };
 
   const resumeBackground = async () => {
-    if (typeof window === "undefined") return;
-    if (window.speechSynthesis && voiceRef.current) {
-      window.speechSynthesis.resume();
+    if (!audioRef.current || !AUDIO_SRC) return;
+
+    try {
+      await audioRef.current.play();
       setAudioOn(true);
+    } catch {
+      setAudioOn(false);
     }
   };
 
@@ -121,9 +110,6 @@ export default function Home() {
       window.sessionStorage.removeItem("princesse-story-progress-v2");
     } catch (error) {
       console.error("Impossible d'effacer la progression sauvegardée.", error);
-    }
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
     }
     setScreen(0);
     setCorrect(0);
@@ -137,7 +123,9 @@ export default function Home() {
 
   const startStory = () => {
     navigate(1);
-    if (!audioOn) playAutoVoice();
+    if (!audioOn && AUDIO_SRC) {
+      playBackgroundAudio();
+    }
   };
 
   if (!ready) {
