@@ -35,20 +35,39 @@ export default function Home() {
   const [audioOn, setAudioOn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const playBackgroundAudio = () => {
+  const playBackgroundAudio = async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     audio.volume = 0.4;
     audio.loop = true;
     audio.muted = false;
-    void audio.play().then(() => setAudioOn(true)).catch(() => {
+
+    try {
+      await audio.play();
+      setAudioOn(true);
+    } catch {
       setAudioOn(false);
-      if (typeof window !== "undefined") {
-        window.addEventListener("pointerdown", playBackgroundAudio, { once: true });
-      }
-    });
+    }
   };
+
+  useEffect(() => {
+    if (!ready || !AUDIO_SRC) return;
+
+    const tryStart = () => {
+      if (audioRef.current && !audioOn) {
+        void playBackgroundAudio();
+      }
+    };
+
+    window.addEventListener("pointerdown", tryStart, { once: true });
+    window.addEventListener("keydown", tryStart, { once: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", tryStart);
+      window.removeEventListener("keydown", tryStart);
+    };
+  }, [ready, audioOn]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
